@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.TRelationDao">
+	<select id="findRelById" resultType="Relation">
+		select * from t_relation where 
+		rel_id = #{relId}
+	</select>
+	<select id="findAllList" resultType="Relation">
+		select * from t_relation  order by rel_from, rel_to
+	</select>
+	<select id="findRel" resultType="Relation">
+		select * from t_relation <where> 
+		<if test="relFrom == relTo">rel_from like #{relFrom} or rel_to like #{relTo}</if>
+		<if test="relFrom != relTo">
+			<if test="relFrom != null and relFrom != ''">rel_from like #{relFrom}</if>
+			<if test="relTo != null and relTo != ''">and rel_to like #{relTo}</if>
+		</if>
+		</where>
+		order by rel_from, rel_to
+	</select>
+ 	 <insert id="insert">
+		INSERT INTO t_relation VALUES (SEQ_T_RELATION.nextval, #{relFrom}, #{relTo}, #{relType}, #{relDataName})  
+	</insert> 
+	<update id="update">
+		UPDATE t_relation SET 
+			rel_from = #{relFrom}, 
+			rel_type = #{relType}, 
+			rel_to = #{relTo}, 
+			rel_data_name = #{relDataName}
+		WHERE rel_id = #{relId}
+	</update>
+	<delete id="delete">
+		DELETE from t_relation WHERE rel_id = #{relId}
+	</delete>
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.DataDao">
+    
+	<select id="findData" parameterType="Relation" resultType="Data">
+		SELECT * FROM t_data where data_rel_id in (select rel_id from t_relation 
+			<where>
+				<if test="relDataName != null and relDataName != ''">
+					 and rel_data_name like #{relDataName}
+			 	</if>
+			</where>)
+	</select>
+	
+	<select id="findDataBySys" parameterType="Relation" resultType="Data">
+		SELECT * FROM t_data where data_rel_id in (select rel_id from t_relation 
+			<where>
+			
+				<if test="relFrom != null and relFrom != ''">
+					 and rel_from like #{relFrom}
+			 	</if>
+				<if test="relTo != null and relTo != ''">
+					 and rel_To like #{relTo}
+			 	</if>
+			</where>)
+	</select>
+
+	<select id="findDataById" resultType="Data">
+		select * from t_data where data_id = #{dataId}
+	</select>
+	
+	<select id="findAllList" resultType="Data">
+		SELECT * FROM t_data 
+	</select>
+	
+	<select id="findRelByRel" resultType="Relation">
+		select * from t_relation 
+		<where>
+			<if test="relFrom != null and relFrom != ''">
+				rel_from = #{relFrom}
+			</if>
+			<if test="relTo != null and relTo != ''">
+				and rel_to = #{relTo}
+			</if>
+			and rel_type = #{relType}
+		</where>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_data VALUES (seq_data_id.nextval, #{dataRelId}, #{dataType}, #{dataLength})
+	</insert>
+	
+	<update id="update">
+		UPDATE t_data SET data_length = #{dataLength}, data_type = #{dataType}, data_rel_id = #{dataRelId} WHERE data_id = #{dataId}
+	</update>
+	
+	<delete id="delete">
+		DELETE from t_data WHERE data_id = #{dataId}
+	</delete>
+	
+</mapper>

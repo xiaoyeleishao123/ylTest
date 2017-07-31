@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.SysDao">
+	<select id="findList" parameterType="Sys" resultType="Sys">
+		select * from t_sys where sys_id like #{sysId}
+	</select>
+	<select id="selectSysById" resultType="String">
+		select sysy_name from t_sys where sys_id = #{sysId}
+	</select>
+	<select id="findAllList" resultType="Sys">
+		select * from t_sys 
+	</select>
+	<insert id="insert">
+		insert into t_sys values(#{sysId},#{sysyName},#{sysFun},#{sysNode})
+	</insert>
+	<update id="update">
+		update t_sys 
+		set 
+		sysy_name = #{sysyName},
+		sys_fun = #{sysFun},
+		sys_node = #{sysNode}
+		where
+		sys_id = #{sysId}
+	</update>
+	<delete id="delete">
+		delete from t_sys where sys_id = #{sysId}
+	</delete>
+</mapper>
